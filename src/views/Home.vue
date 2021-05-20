@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Dog Rescue!" />
+    <HelloWorld msg="Welcome to the MET Interactive Gallery!" />
   </div>
 </template>
 
@@ -16,3 +16,11 @@ export default {
   },
 };
 </script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+img {
+  width: 20%;
+  margin-top: 25px;
+}
+</style>
