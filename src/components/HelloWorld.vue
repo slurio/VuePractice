@@ -23,6 +23,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 a {
-  color: black;
+  color: #C8A2C8;
 }
 </style>
