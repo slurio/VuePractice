@@ -75,7 +75,37 @@ export default {
     },
     searchInput() {
       console.log(this.searchObj);
-    }
+      let searchRequest = "https://collectionapi.metmuseum.org/public/collection/v1/search?"
+      
+     
+      if (this.searchObj.departmentSelected) {
+        let departmentId = (this.departments.find(department => department.displayName === this.searchObj.departmentSelected)).departmentId
+        searchRequest += "departmentId=" + departmentId.toString();
+        console.log(searchRequest)
+
+      }
+      if (this.searchObj.medium) {
+        console.log(this.searchObj)
+      }
+      if (this.searchObj.artist) {
+        console.log(this.searchObj)
+      }
+      if (this.searchObj.location) {
+        console.log(this.searchObj)
+      }
+      if (this.searchObj.permanentCollection) {
+        console.log(this.searchObj)
+      }
+      if (this.searchObj.currentlyOnView) {
+        console.log(this.searchObj)
+      }
+      if (this.searchObj.hasImages) {
+        console.log(this.searchObj)
+      }
+       if (this.searchObj.searchTerm) {
+        console.log(this.searchObj)
+      }
+    },
   },
   created() {
     axios
