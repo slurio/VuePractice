@@ -49,6 +49,7 @@ export default {
     return {
       departments: [],
       searchObj: this.createFreshObj(),
+      searchResults: [],
     };
   },
   methods: {
@@ -109,9 +110,18 @@ export default {
           ? (searchRequest += "q=" + this.searchObj.searchTerm)
           : (searchRequest += "&q=" + this.searchObj.searchTerm);
       }
-      console.log(searchRequest);
-      axios.get(searchRequest).then((resp) => console.log(resp.data));
+      axios.get(searchRequest).then((resp) => this.getSearchResults(resp.data));
     },
+    getSearchResults(results) {
+      //limit for 20 search results for now
+      for (let i = 0; i < 20; i++) {
+        axios
+          .get("https://collectionapi.metmuseum.org/public/collection/v1/objects/" + results.objectIDs[i])
+          .then(resp => {
+            this.searchResults.push(resp);
+          })
+      }
+    }
   },
   created() {
     axios
