@@ -39,7 +39,6 @@
 </template>
 
 <script>
-// import { API_KEY } from "../../environment";
 import axios from "axios";
 
 // Create a Form With a Search feature that gets the data
@@ -48,14 +47,6 @@ import axios from "axios";
 export default {
   data() {
     return {
-      // searchTerm: "",
-      // departmentSelected: "",
-      // permanentCollection: false,
-      // currentlyOnView: false,
-      // hasImages: false,
-      // medium: "",
-      // location: "",
-      // artist: "",
       departments: [],
       searchObj: this.createFreshObj(),
     };
@@ -74,37 +65,52 @@ export default {
       }
     },
     searchInput() {
-      console.log(this.searchObj);
-      let searchRequest = "https://collectionapi.metmuseum.org/public/collection/v1/search?"
-      
-     
+      let searchRequest = "https://collectionapi.metmuseum.org/public/collection/v1/search?";
       if (this.searchObj.departmentSelected) {
-        let departmentId = (this.departments.find(department => department.displayName === this.searchObj.departmentSelected)).departmentId
+        let departmentId = this.departments.find(
+          (department) =>
+            department.displayName === this.searchObj.departmentSelected
+        ).departmentId;
         searchRequest += "departmentId=" + departmentId.toString();
-        console.log(searchRequest)
-
-      }
-      if (this.searchObj.medium) {
-        console.log(this.searchObj)
-      }
-      if (this.searchObj.artist) {
-        console.log(this.searchObj)
-      }
-      if (this.searchObj.location) {
-        console.log(this.searchObj)
       }
       if (this.searchObj.permanentCollection) {
-        console.log(this.searchObj)
+        searchRequest.charAt(searchRequest.length - 1) === "?"
+          ? (searchRequest += "isHighlight=true")
+          : (searchRequest += "&isHighlight=true");
       }
       if (this.searchObj.currentlyOnView) {
-        console.log(this.searchObj)
+        searchRequest.charAt(searchRequest.length - 1) === "?"
+          ? (searchRequest += "isOnView=true")
+          : (searchRequest += "&isOnView=true");
       }
       if (this.searchObj.hasImages) {
-        console.log(this.searchObj)
+        searchRequest.charAt(searchRequest.length - 1) === "?"
+          ? (searchRequest += "hasImages=true")
+          : (searchRequest += "&hasImages=true");
       }
-       if (this.searchObj.searchTerm) {
-        console.log(this.searchObj)
+      if (this.searchObj.medium) {
+        searchRequest.charAt(searchRequest.length - 1) === "?"
+          ? (searchRequest += "medium=" + this.searchObj.medium)
+          : (searchRequest += "&medium=" + this.searchObj.medium);
       }
+      if (this.searchObj.location) {
+        let capitalLocation = this.searchObj.location.charAt(0).toUpperCase() + this.searchObj.location.slice(1);
+        searchRequest.charAt(searchRequest.length - 1) === "?"
+          ? (searchRequest += "geoLocation=" + capitalLocation)
+          : (searchRequest += "&geoLocation=" + capitalLocation);
+      }
+      if (this.searchObj.artist) {
+        searchRequest.charAt(searchRequest.length - 1) === "?"
+          ? (searchRequest += "artistOrCulture=true&q=" + this.searchObj.medium)
+          : (searchRequest += "&artistOrCulture=true&q=" + this.searchObj.medium);
+      }
+      if (this.searchObj.searchTerm) {
+        searchRequest.charAt(searchRequest.length - 1) === "?"
+          ? (searchRequest += "q=" + this.searchObj.searchTerm)
+          : (searchRequest += "&q=" + this.searchObj.searchTerm);
+      }
+      console.log(searchRequest);
+      axios.get(searchRequest).then((resp) => console.log(resp.data));
     },
   },
   created() {
