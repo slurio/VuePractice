@@ -35,16 +35,21 @@
       </div>
       <input type="submit" value="Submit"/>
     </form>
+    <ResultGallery :results="searchResults" />
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import ResultGallery from "@/components/ResultGallery.vue";
 
 // Create a Form With a Search feature that gets the data
 // Create a Discovery Page that has all departments so once user clicks on department it directs them to a new page
 
 export default {
+  components: {
+    ResultGallery,
+  },
   data() {
     return {
       departments: [],
@@ -117,7 +122,7 @@ export default {
       for (let i = 0; i < 20; i++) {
         axios
           .get("https://collectionapi.metmuseum.org/public/collection/v1/objects/" + results.objectIDs[i])
-          .then(resp => {
+          .then((resp) => {
             this.searchResults.push(resp);
           })
       }
